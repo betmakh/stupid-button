@@ -8,8 +8,14 @@ let CLICK_NUMBER = bigInt(0);
 fs.readFile('./server/.result', (err, data) => {
 	if (err) throw err;
 	console.log(data.toString());
-	CLICK_NUMBER = bigInt(data.toString());
+	CLICK_NUMBER = CLICK_NUMBER.plus(bigInt(data.toString()));
 	console.log('CLICK_NUMBER', CLICK_NUMBER);
+	setInterval(() => {
+		fs.writeFile('./server/.result', CLICK_NUMBER.toString(), err => {
+			console.log('file Saved');
+			if (err) throw err;
+		});
+	}, 3000);
 });
 
 const getBody = request =>
